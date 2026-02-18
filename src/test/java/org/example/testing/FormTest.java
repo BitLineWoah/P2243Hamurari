@@ -12,7 +12,10 @@ public class FormTest {
 
     static public WebDriver driver;
     static String URL = "https://demoqa.com";
-    static public String FIRST_NAME
+    static public String FIRST_NAME = "Andrew";
+    static public String LAST_NAME = "Andrew";
+    static public String EMAIL = "idc@gmail.com";
+    static public String GENDER = "Andrew";
 
     @BeforeMethod
     public void BeforeMethod(){
@@ -28,9 +31,11 @@ public class FormTest {
         formPom.clickForms();
         formPom.pause(1000);
         formPom.clickPracticeForm();
+        formPom.closeAdvert();
         formPom.setFirstName(FIRST_NAME);
         formPom.setLastName(LAST_NAME);
         formPom.setEmail(EMAIL);
+        formPom.setGender(GENDER);
         System.out.println("Finish test");
     }
 
