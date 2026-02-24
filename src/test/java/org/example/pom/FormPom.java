@@ -9,7 +9,7 @@ import org.openqa.selenium.support.PageFactory;
 
 public class FormPom {
 
-    static WebDriver driver;
+    static public WebDriver driver;
     static public JavascriptExecutor js;
 
     @FindBy(xpath = "//*[text()='Forms']")
@@ -21,59 +21,97 @@ public class FormPom {
     @FindBy(xpath = "//*[@id='firstName']")
     WebElement firstName;
 
-    @FindBy(xpath = "//*[text()='lastName']")
+    @FindBy(xpath = "//*[@id='lastName']")
     WebElement lastName;
 
-    @FindBy(xpath = "//*[text()='userEmail']")
+    @FindBy(xpath = "//*[@id='userEmail']")
     WebElement userEmail;
 
-    public FormPom(WebDriver driverParam){
+    @FindBy(xpath = "//*[@id='userNumber']")
+    WebElement userNumber;
+
+    @FindBy(id = "dateOfBirthInput")
+    WebElement dateOfBirthInput;
+
+    @FindBy(className = "react-datepicker__month-select")
+    WebElement monthSelect;
+
+    @FindBy(className = "react-datepicker__year-select")
+    WebElement yearSelect;
+
+    @FindBy(xpath = "//*[@id='submit']")
+    WebElement buttonSubmit;
+
+    public FormPom(WebDriver driverParam) {
         driver = driverParam;
         js = (JavascriptExecutor) driver;
         PageFactory.initElements(driver, this);
     }
 
-    public void setGender(String genderParam){
-        WebElement gender driver.findElement(By.xpath("//*[@id='genderWrapper']//label[text()=" + genderParam + "]"));
+    public void clickButtonSubmit() {buttonSubmit.click();}
+
+    public void setDateOfBirth(String day, String month, String year) {
+        dateOfBirthInput.click();
+
+        org.openqa.selenium.support.ui.Select yearDropdown =
+                new org.openqa.selenium.support.ui.Select(yearSelect);
+        yearDropdown.selectByVisibleText(year);
+
+        org.openqa.selenium.support.ui.Select monthDropdown =
+                new org.openqa.selenium.support.ui.Select(monthSelect);
+        monthDropdown.selectByVisibleText(month);
+
+        WebElement dayElement = driver.findElement(By.xpath(
+                "//div[contains(@class,'react-datepicker__day') and text()='" + day + "']"
+        ));
+        dayElement.click();
+    }
+
+    public void setUserNumber(String numberParam){
+        userNumber.clear();
+        userNumber.sendKeys(numberParam);
+    }
+
+    public void setGender(String genderParam) {
+        WebElement gender = driver.findElement(By.xpath("//*[@id='genterWrapper']//label[text()='" + genderParam + "']"));
         gender.click();
     }
 
-    public void setFirstName (String firstNameParam){
-        firstName.clear();
-        firstName.sendKeys(firstNameParam);
+    public void setEmail(String emailParam) {
+        userEmail.clear();
+        userEmail.sendKeys(emailParam);
     }
 
-    public void setLastName (String lastNameParam){
+    public void setLastName(String lastNameParam) {
         lastName.clear();
         lastName.sendKeys(lastNameParam);
     }
 
-    public void setEmail (String EmailParam){
-        userEmail.clear();
-        userEmail.sendKeys(EmailParam);
+    public void setFirstName(String firstNameParam) {
+        firstName.clear();
+        firstName.sendKeys(firstNameParam);
     }
 
-    public void clickPracticeForm(){
+    public void clickPracticeForm() {
         practiceForm.click();
     }
 
-    public void clickForms(){
+    public void clickForms() {
         forms.click();
     }
 
-    public void pause(int ms){
+    public void pause(int ms) {
         try {
             Thread.sleep(ms);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
         }
-        catch ()
     }
 
     public void scrollToElement(WebElement element) {
         JavascriptExecutor js = (JavascriptExecutor) driver;
         js.executeScript("arguments[0].scrollIntoView(true);", element);
     }
-
-    // в басик поме должно следующее быть
 
     public void closeAdvert() {
         try {
@@ -85,6 +123,4 @@ public class FormPom {
                     "elem.parentNode.removeChild(elem);");
         } catch (Exception ignored) {}
     }
-
-
 }

@@ -5,26 +5,30 @@ import org.example.utils.Driver;
 import org.openqa.selenium.WebDriver;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
 public class FormTest {
 
     static public WebDriver driver;
-    static String URL = "https://demoqa.com";
-    static public String FIRST_NAME = "Andrew";
-    static public String LAST_NAME = "Andrew";
-    static public String EMAIL = "idc@gmail.com";
-    static public String GENDER = "Andrew";
+    static public String URL = "https://demoqa.com/";
+    static public String FIRST_NAME = "Alexei";
+    static public String LAST_NAME = "Hamurari";
+    static public String EMAIL = "example@gmail.com";
+    static public String GENDER = "Male";
+    static public String NUMBER = "0791111110";
+    static public String DAY = "23";
+    static public String MONTH = "February";
+    static public String YEAR = "2026";
+    static public String SUBMIT;
 
     @BeforeMethod
-    public void BeforeMethod(){
+    public void beforeMethod() {
         driver = Driver.getAutoLocalDriver();
         driver.manage().window().maximize();
     }
 
     @Test
-    public void formTest(){
+    public void formTest() {
         System.out.println("Start test");
         driver.get(URL);
         FormPom formPom = new FormPom(driver);
@@ -36,11 +40,16 @@ public class FormTest {
         formPom.setLastName(LAST_NAME);
         formPom.setEmail(EMAIL);
         formPom.setGender(GENDER);
+        formPom.setUserNumber(NUMBER);
+        formPom.setDateOfBirth(DAY, MONTH, YEAR);
+        formPom.clickButtonSubmit();
+
         System.out.println("Finish test");
+
     }
 
     @AfterMethod
-    public void afterMethod(){
+    public void afterMethod() {
         driver.quit();
     }
 }
