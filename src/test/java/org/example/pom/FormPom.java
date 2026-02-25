@@ -1,11 +1,11 @@
 package org.example.pom;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+
+import org.example.utils.Utils;
 
 public class FormPom {
 
@@ -38,14 +38,55 @@ public class FormPom {
 
     @FindBy(className = "react-datepicker__year-select")
     WebElement yearSelect;
-
+/*
+    @FindBy(xpath = "//*[@id='hobbies-checkbox-1']")
+    WebElement hobby;
+*/
     @FindBy(xpath = "//*[@id='submit']")
     WebElement buttonSubmit;
+
+    @FindBy(xpath = "//*[@id='subjectsInput']")
+    WebElement subjectsInput;
+
+    @FindBy(xpath = "//*[@id='state']")
+    WebElement state;
+
+    @FindBy(xpath = "//*[@id='city']")
+    WebElement city;
+
 
     public FormPom(WebDriver driverParam) {
         driver = driverParam;
         js = (JavascriptExecutor) driver;
         PageFactory.initElements(driver, this);
+    }
+
+    public String getTableDataByLabel(String labelParam){
+        WebElement data = driver.findElement(By.xpath("//table//*[text()='" + labelParam + "']/../*[2]"));
+        return data.getText();
+    }
+
+    public void setCity(String cityParam){
+        city.click();
+        WebElement ddCity = city.findElement(By.xpath("//*[text()='" + cityParam + "']"));
+        ddCity.click();
+    }
+
+    public void setState(String stateParam){
+        state.click();
+        WebElement ddState = state.findElement(By.xpath("//*[text()='" + stateParam + "']"));
+        ddState.click();
+    }
+/*
+    public void setHobbies(String hobbiesParam){
+        WebElement hobby = driver.findElement(By.xpath("//*[@id='hobbiesWrapper']//label[text()=" + hobbiesParam + "'Sports']/../input"));
+        hobby.sendKeys(" ");
+    }
+*/
+    public void setSubject(String subjectParam){
+        subjectsInput.sendKeys(subjectParam);
+        subjectsInput.sendKeys(Keys.ENTER);
+
     }
 
     public void clickButtonSubmit() {buttonSubmit.click();}
@@ -93,9 +134,9 @@ public class FormPom {
     }
 
     public void clickPracticeForm() {
+        /*Utils.exceptionWait(driver, ExpectedConditions.visibilityOf(practiceForm), 10);*/
         practiceForm.click();
     }
-
     public void clickForms() {
         forms.click();
     }
