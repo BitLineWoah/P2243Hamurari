@@ -57,6 +57,7 @@ public class FormTest {
         formPom.setState(STATE);
         formPom.setCity(CITY);
         formPom.clickButtonSubmit();
+        formPom.pause(5000);
 
         formPom.getTableDataByLabel("Student Name");
         Assert.assertEquals(actualName, FIRST_NAME + " " + LAST_NAME);
