@@ -7,10 +7,15 @@ import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+
 
 import java.net.MalformedURLException;
 
 public class FormTest {
+
+    private static final Logger logger = LogManager.getLogger(FormTest.class);
 
     static public WebDriver driver;
     static public String URL = "https://demoqa.com/";
@@ -31,14 +36,14 @@ public class FormTest {
 
     @BeforeMethod
     public void beforeMethod() throws MalformedURLException {
-        // driver = Driver.getAutoLocalDriver();
-        driver = Driver.getRemoteDriver();
+         driver = Driver.getAutoLocalDriver();
+        // driver = Driver.getRemoteDriver();
         driver.manage().window().maximize();
     }
 
     @Test
     public void formTest() {
-        System.out.println("Start test");
+        logger.info("Start test");
         driver.get(URL);
         FormPom formPom = new FormPom(driver);
         formPom.clickForms();
@@ -48,6 +53,7 @@ public class FormTest {
         formPom.setFirstName(FIRST_NAME);
         formPom.setLastName(LAST_NAME);
         formPom.setEmail(EMAIL);
+        logger.info("Set Email");
         formPom.setGender(GENDER);
         formPom.setUserNumber(NUMBER);
         formPom.setDateOfBirth(DAY, MONTH, YEAR);
@@ -62,7 +68,7 @@ public class FormTest {
         formPom.getTableDataByLabel("Student Name");
         Assert.assertEquals(actualName, FIRST_NAME + " " + LAST_NAME);
 
-        System.out.println("Finish test");
+        logger.info ("Finish test");
 
     }
 
