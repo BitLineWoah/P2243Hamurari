@@ -1,11 +1,15 @@
 package org.example.pom;
 
+import io.qameta.allure.Allure;
+import io.qameta.allure.Step;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import org.example.utils.Utils;
+
+import java.io.ByteArrayInputStream;
 
 public class FormPom {
 
@@ -66,16 +70,22 @@ public class FormPom {
         return data.getText();
     }
 
+    @Step("Set City")
     public void setCity(String cityParam){
+        takeScreenshot("Before City");
         city.click();
         WebElement ddCity = city.findElement(By.xpath("//*[text()='" + cityParam + "']"));
         ddCity.click();
+        takeScreenshot("After City");
     }
 
+    @Step("Set State")
     public void setState(String stateParam){
+        takeScreenshot("Before State");
         state.click();
         WebElement ddState = state.findElement(By.xpath("//*[text()='" + stateParam + "']"));
         ddState.click();
+        takeScreenshot("After State");
     }
 /*
     public void setHobbies(String hobbiesParam){
@@ -83,15 +93,19 @@ public class FormPom {
         hobby.sendKeys(" ");
     }
 */
+    @Step("Set Subject")
     public void setSubject(String subjectParam){
+        takeScreenshot("Before Subject");
         subjectsInput.sendKeys(subjectParam);
         subjectsInput.sendKeys(Keys.ENTER);
-
+        takeScreenshot("After Subject");
     }
 
     public void clickButtonSubmit() {buttonSubmit.click();}
 
+    @Step("Set Date of Birth")
     public void setDateOfBirth(String day, String month, String year) {
+        takeScreenshot("Before Date of Birth");
         dateOfBirthInput.click();
 
         org.openqa.selenium.support.ui.Select yearDropdown =
@@ -106,31 +120,47 @@ public class FormPom {
                 "//div[contains(@class,'react-datepicker__day') and text()='" + day + "']"
         ));
         dayElement.click();
+        takeScreenshot("After Date of Birth");
     }
 
+    @Step("Set User Number")
     public void setUserNumber(String numberParam){
+        takeScreenshot("Before User Number");
         userNumber.clear();
         userNumber.sendKeys(numberParam);
+        takeScreenshot("After User Number");
     }
 
+    @Step("Set Gender")
     public void setGender(String genderParam) {
+        takeScreenshot("Before Gender");
         WebElement gender = driver.findElement(By.xpath("//*[@id='genterWrapper']//label[text()='" + genderParam + "']"));
         gender.click();
+        takeScreenshot("After Gender");
     }
 
+    @Step("Set Email")
     public void setEmail(String emailParam) {
+        takeScreenshot("Before Email");
         userEmail.clear();
         userEmail.sendKeys(emailParam);
+        takeScreenshot("After Email");
     }
 
+    @Step("Set Last Name")
     public void setLastName(String lastNameParam) {
+        takeScreenshot("Before Last Name");
         lastName.clear();
         lastName.sendKeys(lastNameParam);
+        takeScreenshot("After Last Name");
     }
 
+    @Step("Set First Name")
     public void setFirstName(String firstNameParam) {
+        takeScreenshot("Before First Name");
         firstName.clear();
         firstName.sendKeys(firstNameParam);
+        takeScreenshot("After First Name");
     }
 
     public void clickPracticeForm() {
@@ -164,4 +194,14 @@ public class FormPom {
                     "elem.parentNode.removeChild(elem);");
         } catch (Exception ignored) {}
     }
+
+    private void takeScreenshot(String stepName) {
+        try {
+            byte[] screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
+            Allure.addAttachment(stepName, "image/png", new ByteArrayInputStream(screenshot), ".png");
+        } catch (Exception e) {
+            Allure.addAttachment("Screenshot Error", e.toString());
+        }
+    }
+
 }
