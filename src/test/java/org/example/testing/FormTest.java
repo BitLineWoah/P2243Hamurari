@@ -31,6 +31,11 @@ public class FormTest {
     static public String STATE = "Rajasthan";
     static public String CITY = "Jaipur";
     static public String actualName = "Alexei Hamurari";
+    static public String actualEmail = "example@gmail.com";
+    static public String actualGender = "Male";
+    static public String actualNumber = "0791111110";
+    static public String actualSubject = "Maths";
+    static public String actualLocation = "Rajasthan Jaipur";
     /*static public String HOBBY = "Sports";*/
     static public String SUBMIT;
 
@@ -67,6 +72,11 @@ public class FormTest {
 
         formPom.getTableDataByLabel("Student Name");
         Assert.assertEquals(actualName, FIRST_NAME + " " + LAST_NAME);
+        Assert.assertEquals(actualEmail, EMAIL);
+        Assert.assertEquals(actualGender, GENDER);
+        Assert.assertEquals(actualNumber, NUMBER);
+        Assert.assertEquals(actualSubject, SUBJECT);
+        Assert.assertEquals(actualLocation, STATE + " " + CITY);
 
         logger.info ("Finish test");
 
